@@ -1,0 +1,16 @@
+# Bypass execution policy flag. 
+powershell.exe -ExecutionPolicy Bypass -File .\file.ps1 
+
+# Type and pipe, allows single commands.
+type .\file.ps1 | powershell.exe -noprofile -
+
+# Base64 encoded parameter. 
+$commands = Get-Content file.ps1 -Raw
+$bytes = [System.Text.Encoding]::Unicode.GetBytes($commands)
+$encodedCommand = [Convert]::ToBase64String($bytes)
+powershell.exe -EncodedCommand $encodedCommand
+
+# Set Authorisation Manager → NULL.
+function Disable-ExecutionPolicy {($ctx = $executioncontext.gettype().getfield("_context","nonpublic,instance").getvalue( $executioncontext)).gettype().getfield("_authorizationManager","nonpublic,instance").setvalue($ctx, (new-object System.Management.Automation.AuthorizationManager "Microsoft.PowerShell"))}  
+Disable-ExecutionPolicy 
+.\file.ps1
