@@ -1,0 +1,14 @@
+# Show available logs
+Get-EventLog -list
+
+# Get System event logs
+Get-EventLog System
+
+# Get last 100 System event logs
+Get-EventLog -Logname System -Newest 100
+
+# Get System event logs last hour
+Get-EventLog System -After (get-date).addhours(-1)
+
+# Get Secutiry event logs, sepcify source, newest 1000 and sort descending
+Get-EventLog -LogName System -Newest 1000 | Group-Object -Property Source -noelement | Sort-Object -Property count -descending
