@@ -1,8 +1,11 @@
+# Check policy
+get-executionpolicy -list
+
 # Bypass execution policy flag. 
 powershell.exe -ExecutionPolicy Bypass -File .\file.ps1 
 
 # Type and pipe, allows single commands.
-type .\file.ps1 | powershell.exe -noprofile -
+type .\file.ps1 | powershell.exe -noprofile
 
 # Base64 encoded parameter. 
 $commands = Get-Content file.ps1 -Raw
